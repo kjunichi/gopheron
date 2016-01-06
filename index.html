@@ -1,0 +1,112 @@
+<html>
+
+<head>
+  <script src="./three.min.js"></script>
+</head>
+
+<body>
+  <script>
+    "use strict";
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    // シーン
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x000000, 0.00035);
+    // カメラ
+    const camera = new THREE.PerspectiveCamera(50, width / height, 1, 10000);
+    camera.position.z = 1400;
+    camera.position.y = 200;
+    //camera.rotation.z = 0.2;
+    camera.lookAt(0);
+    console.dir(camera);
+    // 光源
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(200, 200, 200);
+    scene.add(directionalLight);
+    // 環境光
+    const ambientLight = new THREE.AmbientLight(0x999999);
+    scene.add(ambientLight);
+    // 地面
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000, 1, 1), new THREE.MeshLambertMaterial({
+      color: 0x333333
+    }));
+    ground.position.y = -200;
+    ground.rotation.x = Math.PI / -2;
+    //scene.add(ground);
+    // レンダラー
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true
+    });
+    renderer.setSize(width, height);
+    //
+    document.body.appendChild(renderer.domElement);
+
+    // モデル
+    //オブジェクト
+    const loader = new THREE.JSONLoader();
+
+    loader.load('./gopher3.json', function(geometry, materials) {
+      //loader.load('./testobj3.json', function(geometry,materials) {
+      const faceMaterial = new THREE.MeshFaceMaterial(materials);
+      const mesh = new THREE.Mesh(geometry, faceMaterial);
+      //mesh = new THREE.Mesh(geometry);
+
+      mesh.scale.set(40, 40, 40);
+      mesh.position.x = -1000;
+      mesh.position.y = -500;
+      mesh.rotation.y = -0.8;
+      scene.add(mesh);
+      let accx = 1;
+      let isJumpping = false;
+      let accy = 1;
+      const meshMoveFunc = function() {
+        if (mesh.position.x > 1000) {
+          accx = -1;
+          mesh.rotation.y = -2.8;
+        }
+        if (mesh.position.x < -1000) {
+          accx = 1;
+          mesh.rotation.y = -0.8;
+        }
+
+        if (isJumpping) {
+          mesh.position.y += 20 * accy;
+          if (mesh.position.y > -200) {
+            accy = -1;
+          }
+          if (mesh.position.y < -500) {
+            accy = 1;
+            mesh.position.y = -500;
+            isJumpping = false;
+          }
+        } else {
+          if (Math.random() > 0.95) {
+            isJumpping = true;
+          }
+        }
+        mesh.position.x = mesh.position.x + accx * 10;
+        setTimeout(meshMoveFunc, 100);
+      }
+      meshMoveFunc();
+    });
+
+    //グリッド
+    const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+    const planeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      wireframe: true
+    });
+    const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.y = -100;
+    planeMesh.rotation.x = 90 * 2 * Math.PI / 360; //左に角度いれるとラジアンに変換
+    //scene.add(planeMesh);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+
+</html>

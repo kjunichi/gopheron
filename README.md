@@ -1,10 +1,14 @@
-# Requirements
+# gopheron
+
+[![gopheron](http://img.youtube.com/vi/7MyO3GNndDU/0.jpg)](http://www.youtube.com/watch?v=7MyO3GNndDU)
+
+## Requirements
 
 ```bash
 npm install -g electron-prebuilt
 ```
 
-# Usage
+## Usage
 
 ```bash
 git clone https://github.com/kjunichi/gopheron.git

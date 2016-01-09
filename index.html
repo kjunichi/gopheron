@@ -35,7 +35,8 @@
     //scene.add(ground);
     // レンダラー
     const renderer = new THREE.WebGLRenderer({
-      alpha: true
+      alpha: true,
+      preserveDrawingBuffer: true
     });
     renderer.setSize(width, height);
     //
@@ -59,7 +60,7 @@
       let accx = 1;
       let isJumpping = false;
       let accy = 1;
-      const meshMoveFunc = function() {
+      const animate = function() {
         if (mesh.position.x > 1000) {
           accx = -1;
           mesh.rotation.y = -2.8;
@@ -70,7 +71,7 @@
         }
 
         if (isJumpping) {
-          mesh.position.y += 20 * accy;
+          mesh.position.y += 15 * accy;
           if (mesh.position.y > -200) {
             accy = -1;
           }
@@ -80,14 +81,16 @@
             isJumpping = false;
           }
         } else {
-          if (Math.random() > 0.95) {
+          if (Math.random() > 0.98) {
             isJumpping = true;
           }
         }
-        mesh.position.x = mesh.position.x + accx * 10;
-        setTimeout(meshMoveFunc, 100);
+        mesh.position.x = mesh.position.x + accx * 4;
+        //setTimeout(meshMoveFunc, 100);
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
       }
-      meshMoveFunc();
+      animate();
     });
 
     //グリッド
@@ -101,11 +104,11 @@
     planeMesh.rotation.x = 90 * 2 * Math.PI / 360; //左に角度いれるとラジアンに変換
     //scene.add(planeMesh);
 
-    function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-    }
-    animate();
+    // function animate() {
+    //   requestAnimationFrame(animate);
+    //   renderer.render(scene, camera);
+    // }
+    // animate();
   </script>
 </body>
 

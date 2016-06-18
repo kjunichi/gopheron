@@ -1,12 +1,13 @@
 "use strict";
 
 const electron = require('electron');
-const app = electron.app; // Module to control application life.
-const ipcMain = electron.ipcMain;
-const BrowserWindow = electron.BrowserWindow;
+const {app} = electron; // Module to control application life.
+const {BrowserWindow} = electron;
+const {ipcMain} = electron;
+
 
 // Report crashes to our server.
-require('crash-reporter').start();
+//require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

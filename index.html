@@ -7,8 +7,8 @@
 <body>
   <script>
     "use strict";
-    var width = window.innerWidth*0.98;
-    var height = window.innerHeight*0.98;
+    const width = window.innerWidth*0.98;
+    const height = window.innerHeight*0.98;
     // シーン
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x000000, 0.00035);
@@ -18,7 +18,7 @@
     camera.position.y = 200;
     //camera.rotation.z = 0.2;
     camera.lookAt(0);
-    console.dir(camera);
+    //console.dir(camera);
     // 光源
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
     directionalLight.position.set(200, 200, 200);
@@ -26,13 +26,6 @@
     // 環境光
     const ambientLight = new THREE.AmbientLight(0x999999);
     scene.add(ambientLight);
-    // 地面
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000, 1, 1), new THREE.MeshLambertMaterial({
-      color: 0x333333
-    }));
-    ground.position.y = -200;
-    ground.rotation.x = Math.PI / -2;
-    //scene.add(ground);
     // レンダラー
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -60,7 +53,7 @@
       let accx = 1;
       let isJumpping = false;
       let accy = 1;
-      const animate = function() {
+      const animate = () => {
         if (mesh.position.x > 1000) {
           accx = -1;
           mesh.rotation.y = -2.8;
@@ -102,13 +95,6 @@
     const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.y = -100;
     planeMesh.rotation.x = 90 * 2 * Math.PI / 360; //左に角度いれるとラジアンに変換
-    //scene.add(planeMesh);
-
-    // function animate() {
-    //   requestAnimationFrame(animate);
-    //   renderer.render(scene, camera);
-    // }
-    // animate();
   </script>
 </body>
 

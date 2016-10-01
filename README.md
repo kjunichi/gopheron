@@ -10,10 +10,19 @@ npm install -g electron-prebuilt
 
 ## Usage
 
-```bash
+```shell
 git clone https://github.com/kjunichi/gopheron.git
 cd gopheron
 electron .
+```
+
+If you have golang :
+
+```shell
+go build gopheron.go
+go build gopheronrc.go
+./gopheron &
+./gopheronrc 'Hello, World!'
 ```
 
 ----

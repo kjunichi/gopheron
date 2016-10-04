@@ -4,7 +4,7 @@ const electron = require('electron');
 const {app} = electron; // Module to control application life.
 const {BrowserWindow} = electron;
 const {ipcMain} = electron;
-
+const socket = require('socket.io-client')('http://localhost:5050/gopheron');
 // Report crashes to our server.
 //require('crash-reporter').start();
 
@@ -13,7 +13,7 @@ const {ipcMain} = electron;
 let mainWindow = null;
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function() {
+app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform != 'darwin') {
@@ -24,6 +24,7 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
+  socket.emit("electron start", "status OK");
   const electronScreen = electron.screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
   // Create the browser window.

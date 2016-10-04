@@ -148,5 +148,5 @@ socket.on('news', (data) => {
   //renderer.render(scene, camera);
   setTimeout(() => {
     scene.remove(gopherBoardMesh);
-  }, 5000);
+  }, 15000);
 });

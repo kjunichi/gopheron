@@ -34,9 +34,13 @@ app.on('ready', () => {
     transparent: true,
     frame: false,
     "always-on-top": true,
+    show: false,
     "title-bar-style": "hidden-inset"
   });
-
+  mainWindow.on('ready-to-show',()=>{
+    mainWindow.show();
+    mainWindow.focus();
+  });
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   mainWindow.setIgnoreMouseEvents(true);

@@ -43,7 +43,7 @@ app.on('ready', () => {
   });
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-  mainWindow.setIgnoreMouseEvents(true);
+  //mainWindow.setIgnoreMouseEvents(true);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {

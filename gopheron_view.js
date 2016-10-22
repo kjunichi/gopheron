@@ -41,7 +41,7 @@ function setupTest(msg) {
   ctx.fillText(msg, 2, 310);
   //const ctx2 = cs.getContext("2d");
   //ctx2.putImageData(ctx.getImageData(0,0,cs.width,cs.height),0, 0);
-  
+
 }
 
 gopherBoardMesh.position.y = 200;
@@ -62,7 +62,7 @@ camera.lookAt(0);
 //console.dir(camera);
 // 光源
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(200, 200, 200);
+directionalLight.position.set(3, -8, 2);
 scene.add(directionalLight);
 // 環境光
 const ambientLight = new THREE.AmbientLight(0x999999);
@@ -79,39 +79,147 @@ document.body.appendChild(renderer.domElement);
 // モデル
 //オブジェクト
 const loader = new THREE.JSONLoader();
+let gopherHRMesh;
+let gopherERMesh;
+let gopherEarRMesh;
+let gopherFRMesh;
+let gopherHLMesh;
+let gopherELMesh;
+let gopherEarLMesh;
+let gopherFLMesh;
+let gopherBodyMesh;
 
-loader.load('./gopher3.json', function (geometry, materials) {
-  //loader.load('./testobj3.json', function(geometry,materials) {
+const root = new THREE.Object3D();
+const rootEL = new THREE.Object3D();
+const rootER = new THREE.Object3D();
+const rootEarL = new THREE.Object3D();
+const rootEarR = new THREE.Object3D();
+const rootHL = new THREE.Object3D();
+const rootHR = new THREE.Object3D();
+const rootFL = new THREE.Object3D();
+const rootFR = new THREE.Object3D();
+
+
+function createGopher() {
+  console.log(`createGopher start`);
+  console.log(`${gopherHRMesh}, ${gopherERMesh}, ${gopherEarRMesh} ${gopherFRMesh}, ${gopherHLMesh}, ${gopherELMesh}, ${gopherEarLMesh}, ${gopherFLMesh}, ${gopherBodyMesh}`)
+  if (gopherHRMesh && gopherERMesh &&
+    gopherEarRMesh && gopherFRMesh &&
+    gopherHLMesh && gopherELMesh &&
+    gopherEarLMesh && gopherFLMesh &&
+    gopherBodyMesh) {
+
+    root.add(gopherBodyMesh);
+
+    root.add(rootEarR);
+    root.add(rootEarL);
+
+    root.add(rootER);
+    root.add(rootEL);
+
+    root.add(rootHR);
+    root.add(rootHL);
+
+    root.add(rootFR);
+    root.add(rootFL);
+
+    scene.add(root);
+
+    gopher();
+  }
+}
+
+function addParts(obj, geom, material, scale) {
+  geom.computeBoundingBox();
+  const bb = geom.boundingBox;
+  const v = new THREE.Vector3();
+  v.addVectors(bb.min, bb.max);
+  v.multiplyScalar(0.5);
+  v.multiplyScalar(scale);
+  obj.position.add(v);
+  geom.center();
+  const mesh = new THREE.Mesh(geom, material);
+  mesh.scale.set(scale, scale, scale);
+  obj.add(mesh);
+  return mesh;
+}
+
+loader.load('./models/gopher_slimdataHR.json', (geometry, materials) => {
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
-  const gopherMesh = new THREE.Mesh(geometry, faceMaterial);
-  //mesh = new THREE.Mesh(geometry);
+  gopherHRMesh = addParts(rootHR, geometry, faceMaterial, 40);
+  createGopher();
+});
 
-  gopherMesh.scale.set(40, 40, 40);
-  gopherMesh.position.x = -1000;
-  gopherMesh.position.y = -500;
-  gopherMesh.rotation.y = -0.8;
-  scene.add(gopherMesh);
+loader.load('./models/gopher_slimdataHL.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherHLMesh = addParts(rootHL, geometry, faceMaterial, 40);
+  createGopher();
+});
+loader.load('./models/gopher_slimdataER.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherERMesh = addParts(rootER, geometry, faceMaterial, 40);
+  createGopher();
+});
+loader.load('./models/gopher_slimdataEL.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherELMesh = addParts(rootEL, geometry, faceMaterial, 40);
+  createGopher();
+});
+loader.load('./models/gopher_slimdataFR.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherFRMesh = addParts(rootFR, geometry, faceMaterial, 40);
+  createGopher();
+});
+loader.load('./models/gopher_slimdataFL.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherFLMesh = addParts(rootFL, geometry, faceMaterial, 40);
+  createGopher();
+});
+loader.load('./models/gopher_slimdataEarR.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherEarRMesh = addParts(rootEarR, geometry, faceMaterial, 40);
+  createGopher();
+});
+loader.load('./models/gopher_slimdataEarL.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherEarLMesh = addParts(rootEarL, geometry, faceMaterial, 40);
+  createGopher();
+});
+loader.load('./models/gopher_slimdataBody.json', (geometry, materials) => {
+  const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  gopherBodyMesh = new THREE.Mesh(geometry, faceMaterial);
+  gopherBodyMesh.scale.set(40, 40, 40);
+  
+  createGopher();
+});
+
+function gopher() {
+  
+  root.position.x = -1000;
+  root.position.y = -500;
+  root.rotation.y = -0.8;
+  
   let accx = 1;
   let isJumpping = false;
   let accy = 1;
   const animate = () => {
-    if (gopherMesh.position.x > 1000) {
+    if (root.position.x > 1000) {
       accx = -1;
-      gopherMesh.rotation.y = -2.8;
+      root.rotation.y = -2.8;
     }
-    if (gopherMesh.position.x < -1000) {
+    if (root.position.x < -1000) {
       accx = 1;
-      gopherMesh.rotation.y = -0.8;
+      root.rotation.y = -0.8;
     }
 
     if (isJumpping) {
-      gopherMesh.position.y += 15 * accy;
-      if (gopherMesh.position.y > -200) {
+      root.position.y += 15 * accy;
+      if (root.position.y > -200) {
         accy = -1;
       }
-      if (gopherMesh.position.y < -500) {
+      if (root.position.y < -500) {
         accy = 1;
-        gopherMesh.position.y = -500;
+        root.position.y = -500;
         isJumpping = false;
       }
     } else {
@@ -119,17 +227,55 @@ loader.load('./gopher3.json', function (geometry, materials) {
         isJumpping = true;
       }
     }
-    gopherMesh.position.x = gopherMesh.position.x + accx * 4;
-    gopherBoardMesh.position.x = gopherMesh.position.x;
-    gopherBoardMesh.position.z = gopherMesh.position.z;
-    gopherBoardMesh.position.y = gopherMesh.position.y + 500;
-    //setTimeout(meshMoveFunc, 100);
+    //gopherMesh.visible=false;
+    root.position.x = root.position.x + accx * 4;
+    gopherBoardMesh.position.x = root.position.x;
+    gopherBoardMesh.position.z = root.position.z;
+    gopherBoardMesh.position.y = root.position.y + 500;
+    
+      gopherFLMesh.position.y += (Math.random() - 0.5) * 8;
+      if (gopherFLMesh.position.y > 20) {
+        gopherFLMesh.position.y = 20;
+      }
+      if (gopherFLMesh.position.y < 0) {
+        gopherFLMesh.position.y = 0;
+      }
+      gopherFRMesh.position.y += (Math.random() - 0.5) * 8;
+      if (gopherFRMesh.position.y > 20) {
+        gopherFRMesh.position.y = 20;
+      }
+      if (gopherFRMesh.position.y < 0) {
+        gopherFRMesh.position.y = 0;
+      }
+      gopherHRMesh.position.y += (Math.random() - 0.5) * 4;
+      if (gopherHRMesh.position.y > 20) {
+        gopherHRMesh.position.y = 20;
+      }
+      if (gopherHRMesh.position.y < -10) {
+        gopherHRMesh.position.y = -10;
+      }
+      gopherHRMesh.rotation.z += (Math.random() - 0.5) * 0.1;
+      if (gopherHRMesh.rotation.z < -10) {
+        gopherHRMesh.position.z = -1;
+      }
+      if (gopherHRMesh.rotation.z > 1) {
+        gopherHRMesh.position.z = 1;
+      }
+      gopherHLMesh.position.y += (Math.random() - 0.5) * 4;
+      if (gopherHLMesh.position.y > 20) {
+        gopherHLMesh.position.y = 20;
+      }
+      if (gopherHLMesh.position.y < -10) {
+        gopherHLMesh.position.y = -10;
+      }
+    
+
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }
   animate();
   socket.emit('gopher', 'ok');
-});
+}
 
 //グリッド
 const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);

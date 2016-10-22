@@ -41,7 +41,6 @@ function setupTest(msg) {
   ctx.fillText(msg, 2, 310);
   //const ctx2 = cs.getContext("2d");
   //ctx2.putImageData(ctx.getImageData(0,0,cs.width,cs.height),0, 0);
-
 }
 
 gopherBoardMesh.position.y = 200;
@@ -61,11 +60,11 @@ camera.position.y = 200;
 camera.lookAt(0);
 //console.dir(camera);
 // 光源
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(3, -8, 2);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.position.set(1, 1, 2);
 scene.add(directionalLight);
 // 環境光
-const ambientLight = new THREE.AmbientLight(0x999999);
+const ambientLight = new THREE.AmbientLight(0xdddddd);
 scene.add(ambientLight);
 // レンダラー
 const renderer = new THREE.WebGLRenderer({
@@ -145,48 +144,66 @@ function addParts(obj, geom, material, scale) {
 }
 
 loader.load('./models/gopher_slimdataHR.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherHRMesh = addParts(rootHR, geometry, faceMaterial, 40);
   createGopher();
 });
 
 loader.load('./models/gopher_slimdataHL.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherHLMesh = addParts(rootHL, geometry, faceMaterial, 40);
   createGopher();
 });
 loader.load('./models/gopher_slimdataER.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherERMesh = addParts(rootER, geometry, faceMaterial, 40);
   createGopher();
 });
 loader.load('./models/gopher_slimdataEL.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherELMesh = addParts(rootEL, geometry, faceMaterial, 40);
   createGopher();
 });
 loader.load('./models/gopher_slimdataFR.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherFRMesh = addParts(rootFR, geometry, faceMaterial, 40);
   createGopher();
 });
 loader.load('./models/gopher_slimdataFL.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherFLMesh = addParts(rootFL, geometry, faceMaterial, 40);
   createGopher();
 });
 loader.load('./models/gopher_slimdataEarR.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherEarRMesh = addParts(rootEarR, geometry, faceMaterial, 40);
   createGopher();
 });
 loader.load('./models/gopher_slimdataEarL.json', (geometry, materials) => {
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
   gopherEarLMesh = addParts(rootEarL, geometry, faceMaterial, 40);
   createGopher();
 });
 loader.load('./models/gopher_slimdataBody.json', (geometry, materials) => {
   const faceMaterial = new THREE.MeshFaceMaterial(materials);
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
   gopherBodyMesh = new THREE.Mesh(geometry, faceMaterial);
   gopherBodyMesh.scale.set(40, 40, 40);
   
@@ -213,6 +230,8 @@ function gopher() {
     }
 
     if (isJumpping) {
+      gopherFRMesh.rotation.x=-Math.PI/2;
+      gopherFLMesh.rotation.x=-Math.PI/2;
       root.position.y += 15 * accy;
       if (root.position.y > -200) {
         accy = -1;
@@ -223,6 +242,8 @@ function gopher() {
         isJumpping = false;
       }
     } else {
+      gopherFRMesh.rotation.x=0;
+      gopherFLMesh.rotation.x=0;
       if (Math.random() > 0.98) {
         isJumpping = true;
       }
@@ -268,8 +289,20 @@ function gopher() {
       if (gopherHLMesh.position.y < -10) {
         gopherHLMesh.position.y = -10;
       }
-    
-
+      gopherELMesh.rotation.x+=(0.5 - Math.random())*0.1;
+      if(gopherELMesh.rotation.x > 1) {
+        gopherELMesh.rotation.x = 1
+      }
+      if(gopherELMesh.rotation.x < -1) {
+        gopherELMesh.rotation.x = -1
+      }
+      gopherERMesh.rotation.x+=(0.5 - Math.random())*0.1;
+      if(gopherERMesh.rotation.x > 1) {
+        gopherERMesh.rotation.x = 1
+      }
+      if(gopherERMesh.rotation.x < -1) {
+        gopherERMesh.rotation.x = -1
+      }
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }

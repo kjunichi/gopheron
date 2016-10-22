@@ -17,8 +17,7 @@ const someData = "abrakatabura"
 socket.on('connect', () => {
         console.log("connect!")
         //socket.emit('chat message', JSON.stringify(someData))
-        //socket.emit("test", "this is testmsg.")
-        socket.emit('gopher send', "そうとくんなおくんげんきかな？")
+        socket.emit("gopher send", "this is testmsg.")
         socket.on('gopher recv', (msg) => {
                 process.exit(0)
         })

@@ -95,6 +95,9 @@ function gopher() {
   let accx = 1;
   let isJumpping = false;
   let accy = 1;
+  let sHR = 1;
+  let sHL = -1;
+
   const animate = () => {
     if (root.position.x > 1000) {
       accx = -1;
@@ -151,12 +154,24 @@ function gopher() {
     if (gopherHRMesh.position.y < -10) {
       gopherHRMesh.position.y = -10;
     }
-    gopherHRMesh.rotation.z += (Math.random() - 0.5) * 0.1;
-    if (gopherHRMesh.rotation.z < -10) {
-      gopherHRMesh.position.z = -1;
+    
+    gopherHRMesh.rotation.z += sHR * 0.14;
+    if (gopherHRMesh.rotation.z < -0.5) {
+      gopherHRMesh.position.z = -0.5;
+      sHR = 1;
     }
-    if (gopherHRMesh.rotation.z > 1) {
-      gopherHRMesh.position.z = 1;
+    if (gopherHRMesh.rotation.z > 1.0) {
+      gopherHRMesh.position.z = 1.0;
+      sHR = -1;
+    }
+    gopherHLMesh.rotation.z += sHL * 0.14;
+    if (gopherHLMesh.rotation.z < -0.5) {
+      gopherHLMesh.position.z = -0.5;
+      sHL = 1;
+    }
+    if (gopherHLMesh.rotation.z > 1.0) {
+      gopherHLMesh.position.z = 1.0;
+      sHL = -1;
     }
     gopherHLMesh.position.y += (Math.random() - 0.5) * 4;
     if (gopherHLMesh.position.y > 20) {

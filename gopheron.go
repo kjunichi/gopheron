@@ -48,7 +48,7 @@ func socketIoServer(port int) {
 
 func startElectron() {
 	gopheronPath := path.Dir(os.Args[0])
-	out, err := exec.Command("electron", gopheronPath).Output()
+	out, err := exec.Command("electron", "--with-golang", gopheronPath).Output()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

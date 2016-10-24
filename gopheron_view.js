@@ -1,7 +1,5 @@
 "use strict";
 
-const socket = io('http://localhost:5050');
-
 function setupText(msg) {
   console.log(`setupText ${msg}`)
   const ctx = cs.getContext("2d");
@@ -199,7 +197,9 @@ function gopher() {
   }
 
   animate();
-  socket.emit('gopher', 'ok');
+  if(golangMode) {
+    socket.emit('gopher', 'ok');
+  }
 }
 
 const cs = document.createElement("canvas");
@@ -323,13 +323,16 @@ const planeMaterial = new THREE.MeshBasicMaterial({
 const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
 planeMesh.position.y = -100;
 planeMesh.rotation.x = 90 * 2 * Math.PI / 360; //左に角度いれるとラジアンに変換
-
-socket.on('news', (data) => {
-  setupText(data);
-  scene.add(gopherBoardMesh);
-  texture.needsUpdate = true;
-  //renderer.render(scene, camera);
-  setTimeout(() => {
-    scene.remove(gopherBoardMesh);
-  }, 15000);
-});
+let socket; 
+if(golangMode) {
+  socket = io('http://localhost:5050');
+  socket.on('news', (data) => {
+    setupText(data);
+    scene.add(gopherBoardMesh);
+    texture.needsUpdate = true;
+    //renderer.render(scene, camera);
+    setTimeout(() => {
+      scene.remove(gopherBoardMesh);
+    }, 15000);
+  });
+}

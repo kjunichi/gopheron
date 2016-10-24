@@ -1,11 +1,18 @@
 <html>
 
 <head>
-  <script src="./three.min.js"></script>
-  <script src="http://localhost:5050/socket.io.js"></script>
 </head>
 
 <body>
+  <script src="./three.min.js"></script>
+  <script>
+    const h = window.location.search.slice(1).split("&");
+    const golangMode = h[0].split("=")[1];
+    if(golangMode) {
+      const s = document.createElement("script");
+      s.src = "http://localhost:5050/socket.io.js";
+    }
+  </script>
   <script src="gopheron_view.js"></script>
 </body>
 

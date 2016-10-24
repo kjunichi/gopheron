@@ -4,13 +4,19 @@ const electron = require('electron');
 const {app} = electron; // Module to control application life.
 const {BrowserWindow} = electron;
 const {ipcMain} = electron;
-const socket = require('socket.io-client')('http://localhost:5050/gopheron');
 // Report crashes to our server.
 //require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
+let golangMode = false;
+
+if (JSON.stringify(process.argv).indexOf("--with-golang")>0) {
+  // golang mode.
+  const socket = require('socket.io-client')('http://localhost:5050/gopheron');
+  golangMode = true;
+}
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -24,7 +30,9 @@ app.on('window-all-closed', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
-  socket.emit("electron start", "status OK");
+  if(golangMode) {
+    socket.emit("electron start", "status OK");
+  }
   const electronScreen = electron.screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
   // Create the browser window.
@@ -42,7 +50,7 @@ app.on('ready', () => {
     mainWindow.focus();
   });
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html?golang=${golangMode}`);
   mainWindow.setIgnoreMouseEvents(true);
 
   // Emitted when the window is closed.

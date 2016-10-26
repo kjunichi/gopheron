@@ -19,6 +19,7 @@ electron .
 If you have golang :
 
 ```shell
+npm install
 go get github.com/googollee/go-socket.io
 go get github.com/zhouhui8915/go-socket.io-client
 go build gopheron.go

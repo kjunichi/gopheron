@@ -109,6 +109,8 @@ function gopher() {
     if (isJumpping) {
       gopherFRMesh.rotation.x = -Math.PI / 2;
       gopherFLMesh.rotation.x = -Math.PI / 2;
+      gopherHRMesh.rotation.z = Math.PI/2;
+      gopherHLMesh.rotation.z = Math.PI/2;
       root.position.y += 15 * accy;
       if (root.position.y > -200) {
         accy = -1;
@@ -178,20 +180,22 @@ function gopher() {
     if (gopherHLMesh.position.y < -10) {
       gopherHLMesh.position.y = -10;
     }
-    gopherELMesh.rotation.x += (0.5 - Math.random()) * 0.1;
-    if (gopherELMesh.rotation.x > 1) {
-      gopherELMesh.rotation.x = 1
+    
+    gopherELMesh.rotation.x += (0.5 - Math.random()) * 0.2;
+    if (gopherELMesh.rotation.x > 0.5) {
+      gopherELMesh.rotation.x = 0.5
     }
-    if (gopherELMesh.rotation.x < -1) {
-      gopherELMesh.rotation.x = -1
+    if (gopherELMesh.rotation.x < -0.5) {
+      gopherELMesh.rotation.x = -0.5
     }
-    gopherERMesh.rotation.x += (0.5 - Math.random()) * 0.1;
-    if (gopherERMesh.rotation.x > 1) {
-      gopherERMesh.rotation.x = 1
+    gopherERMesh.rotation.x += (0.5 - Math.random()) * 0.2;
+    if (gopherERMesh.rotation.x > 0.5) {
+      gopherERMesh.rotation.x = 0.5
     }
-    if (gopherERMesh.rotation.x < -1) {
-      gopherERMesh.rotation.x = -1
+    if (gopherERMesh.rotation.x < -0.5) {
+      gopherERMesh.rotation.x = -0.5
     }
+    
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }

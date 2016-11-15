@@ -4,6 +4,7 @@ const electron = require('electron');
 const {app} = electron; // Module to control application life.
 const {BrowserWindow} = electron;
 const {ipcMain} = electron;
+let socket;
 // Report crashes to our server.
 //require('crash-reporter').start();
 
@@ -14,7 +15,7 @@ let golangMode = false;
 
 if (JSON.stringify(process.argv).indexOf("--with-golang")>0) {
   // golang mode.
-  const socket = require('socket.io-client')('http://localhost:5050/gopheron');
+  socket = require('socket.io-client')('http://localhost:5050/gopheron');
   golangMode = true;
 }
 

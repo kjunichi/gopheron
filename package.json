@@ -2,6 +2,9 @@
   "name": "gopheron",
   "version": "0.1.0",
   "main": "main.js",
+  "scripts": {
+    "test": "./test.sh"
+  }
   "dependencies": {
     "socket.io-client": "^1.4.8"
   }

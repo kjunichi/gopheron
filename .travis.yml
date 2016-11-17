@@ -6,7 +6,7 @@ addons:
   apt:
     packages:
       - xvfb
-      - xwd
+      - imagemagick
 
 install:
   - export DISPLAY=':99.0'

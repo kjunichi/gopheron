@@ -1,4 +1,6 @@
 #!/bin/sh
 electron . &
-sleep 10
+sleep 3
+xwd -root >gpheron.xwd
+
 

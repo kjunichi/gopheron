@@ -1,5 +1,5 @@
 #!/bin/sh
-import -window root >no.png
+import -window root no.png
 electron . &
 sleep 3
 import -window root gopheron.png

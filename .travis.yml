@@ -14,5 +14,7 @@ install:
   
 script:
   - npm install -g electron
+  - chmod +x build_osmesa.sh
+  - ./build_osmesa.sh
   - chmod +x test.sh
   - npm test

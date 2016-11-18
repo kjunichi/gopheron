@@ -13,4 +13,6 @@ fi
 ls -ltr `npm config get prefix`/lib/node_modules/electron/dist
 git clone https://github.com/eddieantonio/imgcat
 cd imgcat;CC=clang make;cd ..
-imgcat/src/imgcat diff.png
+pwd
+ls -ltr
+imgcat/src/imgcat -width 80 gopheron.png

@@ -12,5 +12,5 @@ else
 fi
 ls -ltr `npm config get prefix`/lib/node_modules/electron/dist
 git clone https://github.com/eddieantonio/imgcat
-cd imgcat;make;cd ..
+cd imgcat;CC=clang make;cd ..
 imgcat/src/imgcat diff.png

@@ -10,4 +10,4 @@ if [ $result -gt 0 ] ; then
 else
  exit 1
 fi
-env
+ls -ltr `npm config get prefix`/lib/node_modules/electron/dist

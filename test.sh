@@ -15,4 +15,4 @@ git clone https://github.com/eddieantonio/imgcat
 cd imgcat;CC=clang make;cd ..
 pwd
 ls -ltr
-imgcat/src/imgcat -width 80 gopheron.png
+imgcat/src/imgcat --width 80 gopheron.png

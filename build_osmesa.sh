@@ -12,6 +12,6 @@ cd src
 gn gen out/Default
 ninja -C out/Default osmesa
 cd $savedDir
-ls -ltr $saveDir/chromium/src/out/Default
-cp $saveDir/chromium/src/out/Default/libosmesa.so .
+ls -ltr $saveDir/chromium/out/Default
+cp $saveDir/chromium/out/Default/libosmesa.so .
 ls -ltr

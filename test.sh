@@ -1,7 +1,7 @@
 #!/bin/sh
 import -window root no.png
 electron --use-gl=osmesa . &
-sleep 3
+sleep 8
 import -window root gopheron.png
 composite -compose difference no.png gopheron.png diff.png
 result=`identify -format "%[mean]" diff.png|awk '{printf("%d",$1 + 0.5)}'`
@@ -15,4 +15,5 @@ git clone https://github.com/eddieantonio/imgcat
 cd imgcat;CC=clang make;cd ..
 pwd
 ls -ltr
+identify -list format
 imgcat/src/imgcat --width 80 ./gopheron.png

@@ -10,4 +10,4 @@ if [ $result -gt 0 ] ; then
 else
  exit 1
 fi
-
+env

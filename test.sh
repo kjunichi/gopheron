@@ -10,10 +10,10 @@ if [ $result -gt 0 ] ; then
 else
  exit 1
 fi
-ls -ltr `npm config get prefix`/lib/node_modules/electron/dist
+#ls -ltr `npm config get prefix`/lib/node_modules/electron/dist
 git clone https://github.com/eddieantonio/imgcat
 cd imgcat;CC=clang make;cd ..
-pwd
-ls -ltr
-identify -list format
-imgcat/src/imgcat --width 80 ./gopheron.jpg
+#pwd
+#ls -ltr
+#identify -list format
+imgcat/src/imgcat --width 100 ./gopheron.jpg

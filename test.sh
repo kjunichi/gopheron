@@ -1,7 +1,7 @@
 #!/bin/sh
 import -window root no.jpg
 electron --use-gl=osmesa . &
-sleep 8
+sleep 18
 import -window root gopheron.jpg
 composite -compose difference no.jpg gopheron.jpg diff.jpg
 result=`identify -format "%[mean]" diff.jpg|awk '{printf("%d",$1 + 0.5)}'`

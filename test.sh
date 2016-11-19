@@ -2,6 +2,7 @@
 import -window root no.jpg
 electron --use-gl=osmesa . &
 sleep 18
+ps axuw|grep electr
 import -window root gopheron.jpg
 composite -compose difference no.jpg gopheron.jpg diff.jpg
 result=`identify -format "%[mean]" diff.jpg|awk '{printf("%d",$1 + 0.5)}'`
@@ -16,4 +17,4 @@ cd imgcat;CC=clang make;cd ..
 #pwd
 #ls -ltr
 #identify -list format
-imgcat/src/imgcat --width 100 diff.jpg
+imgcat/src/imgcat --width 90 gopheron.jpg

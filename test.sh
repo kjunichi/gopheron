@@ -16,4 +16,4 @@ cd imgcat;CC=clang make;cd ..
 #pwd
 #ls -ltr
 #identify -list format
-imgcat/src/imgcat --width 100 ./gopheron.jpg
+imgcat/src/imgcat --width 100 diff.jpg

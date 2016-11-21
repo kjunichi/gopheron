@@ -12,6 +12,7 @@ cd src
 gn gen out/Default
 ninja -C out/Default osmesa
 cd $savedDir
-ls -ltr $savedDir/chromium/
+#ls -ltr $savedDir/chromium/
 cp $savedDir/chromium/src/out/Default/libosmesa.so .
-ls -ltr
+cp $savedDir/chromium/src/out/Default/libbase.so .
+#ls -ltr

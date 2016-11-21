@@ -11,8 +11,8 @@ if [ $result -gt 0 ] ; then
 else
  exit 1
 fi
-ls -ltr `npm config get prefix`/lib/node_modules/electron/dist
-ldd `npm config get prefix`/lib/node_modules/electron/dist/libosmesa.so
+# ls -ltr `npm config get prefix`/lib/node_modules/electron/dist
+# ldd `npm config get prefix`/lib/node_modules/electron/dist/libosmesa.so
 git clone https://github.com/eddieantonio/imgcat
 cd imgcat;CC=clang make;cd ..
 #pwd

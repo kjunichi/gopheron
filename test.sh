@@ -17,4 +17,5 @@ cd imgcat;CC=clang make;cd ..
 #pwd
 #ls -ltr
 #identify -list format
+curl https://wsproxy-slide.herokuapp.com/upload -F images=@gopheron.png
 imgcat/src/imgcat --width 90 gopheron.jpg

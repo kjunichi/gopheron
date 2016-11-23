@@ -19,6 +19,11 @@ if (JSON.stringify(process.argv).indexOf("--with-golang")>0) {
   golangMode = true;
 }
 
+if(process.platform.indexOf("linux")>=0) {
+  app.commandLine.appendSwitch('--enable-transparent-visuals');
+  app.commandLine.appendSwitch('--disable-gpu');
+}
+
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar

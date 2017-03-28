@@ -2,30 +2,32 @@
 
 function gopheronMain(golangMode) {
   function setupText(msg) {
+    const ww = 300;
+    const hh = 50;
     console.log(`setupText ${msg}`)
     const ctx = cs.getContext("2d");
     //ctx.globalAlpha = 0.0;
     ctx.clearRect(0, 0, cs.width, cs.height);
     ctx.fillStyle = "rgb(245, 245, 245)";
-    ctx.fillRect(0, 0, cs.width, cs.height - 300);
+    ctx.fillRect(0, 0, cs.width, cs.height - hh);
     ctx.beginPath();
-    ctx.moveTo(0 + 600, cs.height - 300);
-    ctx.lineTo(cs.width - 600, cs.height - 300);
+    ctx.moveTo(0 + ww, cs.height - hh);
+    ctx.lineTo(cs.width - ww, cs.height - hh);
     ctx.lineTo(cs.width / 2, cs.height);
     ctx.closePath();
     ctx.fill();
     /* フォントスタイルを定義 */
-    ctx.font = "132px 'ＭＳ Ｐゴシック'";
+    ctx.font = "26px 'ＭＳ Ｐゴシック'";
 
     ctx.strokeStyle = "blue";
     ctx.fillStyle = "rgb(0, 0, 225)";
 
-    ctx.fillText(msg, 80, 310);
+    ctx.fillText(msg, 4, 40);
   }
   let texture;
   function makeGopherBoard() {
 
-    const gopherBoard = new THREE.PlaneGeometry(600, 300, 1, 1);
+    const gopherBoard = new THREE.PlaneGeometry(512, 256, 1, 1);
     texture = new THREE.Texture(cs, THREE.UVMapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping);
     setupText("...");
     const gopherBoardMaterial = new THREE.MeshBasicMaterial({
@@ -208,8 +210,8 @@ function gopheronMain(golangMode) {
   }
 
   const cs = document.createElement("canvas");
-  cs.width = 2048;
-  cs.height = 2048;
+  cs.width = 512;
+  cs.height = 256;
   const cs2 = document.createElement("canvas");
   cs2.width = cs.width;
   cs2.height = cs.height;

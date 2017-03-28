@@ -14,5 +14,5 @@ ninja -C out/Default osmesa
 cd $savedDir
 #ls -ltr $savedDir/chromium/
 cp $savedDir/chromium/src/out/Default/libosmesa.so .
-cp $savedDir/chromium/src/out/Default/libbase.so .
+#cp $savedDir/chromium/src/out/Default/libbase.so .
 #ls -ltr

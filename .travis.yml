@@ -17,6 +17,5 @@ script:
   - chmod +x build_osmesa.sh
   - ./build_osmesa.sh
   - cp libosmesa.so `npm config get prefix`/lib/node_modules/electron/dist
-  - cp libbase.so `npm config get prefix`/lib/node_modules/electron/dist
   - chmod +x test.sh
   - npm test

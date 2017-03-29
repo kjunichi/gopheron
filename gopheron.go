@@ -32,6 +32,13 @@ func socketIoServer(port int) {
 			so.BroadcastTo("gopher", "news", msg)
 			so.Emit("gopher recv", "send: ok")
 		})
+
+		so.On("gopher stop", func(msg string) {
+			log.Println("gopher stop :", msg)
+			so.BroadcastTo("gopher", "stop", msg)
+			so.Emit("gopher recv", "send: ok")
+		})
+
 		so.On("disconnection", func() {
 			log.Println("on disconnect")
 		})

@@ -24,9 +24,8 @@ function gopheronMain(golangMode) {
 
     ctx.fillText(msg, 4, 40);
   }
-  let texture;
-  function makeGopherBoard() {
 
+  function makeGopherBoard() {
     const gopherBoard = new THREE.PlaneGeometry(512, 256, 1, 1);
     texture = new THREE.Texture(cs, THREE.UVMapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping);
     setupText("...");
@@ -208,7 +207,7 @@ function gopheronMain(golangMode) {
       socket.emit('gopher', 'ok');
     }
   }
-
+  let texture;
   const cs = document.createElement("canvas");
   cs.width = 512;
   cs.height = 256;
@@ -248,7 +247,7 @@ function gopheronMain(golangMode) {
 
   // モデル
   //オブジェクト
-  const loader = new THREE.JSONLoader();
+
   let gopherHRMesh;
   let gopherERMesh;
   let gopherEarRMesh;
@@ -269,6 +268,7 @@ function gopheronMain(golangMode) {
   const rootFL = new THREE.Object3D();
   const rootFR = new THREE.Object3D();
 
+  const loader = new THREE.JSONLoader();
   loader.load('./models/gopher_slimdataHR.json', (geometry, materials) => {
     const faceMaterial = new THREE.MeshFaceMaterial(materials);
     gopherHRMesh = addParts(rootHR, geometry, faceMaterial, 40);
@@ -337,7 +337,6 @@ function gopheronMain(golangMode) {
       setupText(data);
       scene.add(gopherBoardMesh);
       texture.needsUpdate = true;
-      //renderer.render(scene, camera);
       setTimeout(() => {
         scene.remove(gopherBoardMesh);
       }, 15000);
@@ -348,17 +347,17 @@ function gopheronMain(golangMode) {
 
 function checkGolangMode(next) {
   const h = window.location.search.slice(1).split("&");
-    const golangMode = Boolean(h[0].split("=")[1]==="true");
-    if(golangMode) {
-      const s = document.createElement("script");
-      s.src = "http://localhost:5050/socket.io.js";
-      s.onload=()=>{
-        next(golangMode);
-      };
-      document.body.appendChild(s);
-    } else {
-      next(false);
-    }
+  const golangMode = Boolean(h[0].split("=")[1] === "true");
+  if (golangMode) {
+    const s = document.createElement("script");
+    s.src = "http://localhost:5050/socket.io.js";
+    s.onload = () => {
+      next(golangMode);
+    };
+    document.body.appendChild(s);
+  } else {
+    next(false);
+  }
 }
 
 checkGolangMode(gopheronMain);

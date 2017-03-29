@@ -7,7 +7,7 @@ socket.on('test', (msg) => {
 socket.on('event', (data) => {
         console.log(`event recv! ${data}`)
 });
-socket.on('disconnect', function () { });
+socket.on('disconnect', function () {});
 socket.on('chat message', (msg) => {
         console.log(`onChat msg = ${msg}`)
 })
@@ -17,9 +17,16 @@ const someData = "abrakatabura"
 socket.on('connect', () => {
         console.log("connect!")
         //socket.emit('chat message', JSON.stringify(someData))
-        socket.emit("gopher send", "this is testmsg.")
+        let count = 0;
+        socket.emit("gopher send", "🙉🌈絵文字はどうかな？abc😭")
+        count++;
+        socket.emit("gopher stop", "")
+        count++;
         socket.on('gopher recv', (msg) => {
-                process.exit(0)
+                count--;
+                if (count <= 0) {
+                        process.exit(0)
+                }
         })
         //setTimeout(process.exit(0),1000);
 })

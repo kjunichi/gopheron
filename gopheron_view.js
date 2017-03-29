@@ -1,6 +1,7 @@
 "use strict";
 
 function gopheronMain(golangMode) {
+
   function setupText(msg) {
     const ww = 300;
     const hh = 50;
@@ -99,6 +100,7 @@ function gopheronMain(golangMode) {
     let sHL = -1;
 
     const animate = () => {
+
       if (root.position.x > 1000) {
         accx = -1;
         root.rotation.y = -2.8;
@@ -125,12 +127,14 @@ function gopheronMain(golangMode) {
       } else {
         gopherFRMesh.rotation.x = 0;
         gopherFLMesh.rotation.x = 0;
-        if (Math.random() > 0.98) {
+        if (Math.random() > 0.98 && gopherMove) {
           isJumpping = true;
         }
       }
 
-      root.position.x = root.position.x + accx * 4;
+      if (gopherMove) {
+        root.position.x = root.position.x + accx * 4;
+      }
       gopherBoardMesh.position.x = root.position.x;
       gopherBoardMesh.position.z = root.position.z;
       gopherBoardMesh.position.y = root.position.y + 530;
@@ -331,6 +335,7 @@ function gopheronMain(golangMode) {
   planeMesh.position.y = -100;
   planeMesh.rotation.x = 90 * 2 * Math.PI / 360; //左に角度いれるとラジアンに変換
   let socket;
+  let gopherMove = true;
   if (golangMode) {
     socket = io('http://localhost:5050');
     socket.on('news', (data) => {
@@ -340,6 +345,12 @@ function gopheronMain(golangMode) {
       setTimeout(() => {
         scene.remove(gopherBoardMesh);
       }, 15000);
+    });
+    socket.on('stop', (data) => {
+      gopherMove = false;
+      setTimeout(() => {
+        gopherMove = true;
+      }, 30000)
     });
     console.log(`golangMode = ${golangMode}`)
   }

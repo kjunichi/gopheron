@@ -57,7 +57,9 @@ app.on('ready', () => {
   });
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html?golang=${golangMode}`);
-  mainWindow.setIgnoreMouseEvents(true);
+  if(!process.env.DEBUG) {
+    mainWindow.setIgnoreMouseEvents(true);
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {

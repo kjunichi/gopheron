@@ -8,7 +8,8 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
-  "path"
+  	"path"
+	"path/filepath"
 )
 
 func socketIoServer(port int) {
@@ -53,9 +54,24 @@ func socketIoServer(port int) {
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), nil))
 }
 
+func Exists(filename string) bool {
+    _, err := os.Stat(filename)
+    return err == nil
+}
+
+func GetElectronPath(gopheronPath string) string {
+	localElectron := gopheronPath + "/" + "node_modules/.bin/electron"
+	electronPath := "electron"
+	if Exists(localElectron) {
+		return filepath.FromSlash(localElectron)
+	}
+	return electronPath
+}
+
 func startElectron() {
 	gopheronPath := path.Dir(os.Args[0])
-	out, err := exec.Command("electron", "--with-golang", gopheronPath).Output()
+	
+	out, err := exec.Command(GetElectronPath(gopheronPath), "--with-golang", gopheronPath).Output()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

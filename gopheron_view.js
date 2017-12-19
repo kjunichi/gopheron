@@ -231,7 +231,7 @@ function gopheronMain(golangMode) {
   camera.position.z = 1400;
   camera.position.y = 200;
   //camera.rotation.z = 0.2;
-  camera.lookAt(0);
+  camera.lookAt(new THREE.Vector3(0,200,0));
   //console.dir(camera);
   // 光源
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
@@ -274,51 +274,42 @@ function gopheronMain(golangMode) {
 
   const loader = new THREE.JSONLoader();
   loader.load('./models/gopher_slimdataHR.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherHRMesh = addParts(rootHR, geometry, faceMaterial, 40);
+    gopherHRMesh = addParts(rootHR, geometry, materials, 40);
     createGopher();
   });
 
   loader.load('./models/gopher_slimdataHL.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherHLMesh = addParts(rootHL, geometry, faceMaterial, 40);
+    gopherHLMesh = addParts(rootHL, geometry, materials, 40);
     createGopher();
   });
   loader.load('./models/gopher_slimdataER.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherERMesh = addParts(rootER, geometry, faceMaterial, 40);
+    gopherERMesh = addParts(rootER, geometry, materials, 40);
     createGopher();
   });
   loader.load('./models/gopher_slimdataEL.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherELMesh = addParts(rootEL, geometry, faceMaterial, 40);
+    gopherELMesh = addParts(rootEL, geometry, materials, 40);
     createGopher();
   });
   loader.load('./models/gopher_slimdataFR.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherFRMesh = addParts(rootFR, geometry, faceMaterial, 40);
+    gopherFRMesh = addParts(rootFR, geometry, materials, 40);
     createGopher();
   });
   loader.load('./models/gopher_slimdataFL.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherFLMesh = addParts(rootFL, geometry, faceMaterial, 40);
+    gopherFLMesh = addParts(rootFL, geometry, materials, 40);
     createGopher();
   });
   loader.load('./models/gopher_slimdataEarR.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherEarRMesh = addParts(rootEarR, geometry, faceMaterial, 40);
+    gopherEarRMesh = addParts(rootEarR, geometry, materials, 40);
     createGopher();
   });
   loader.load('./models/gopher_slimdataEarL.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
-    gopherEarLMesh = addParts(rootEarL, geometry, faceMaterial, 40);
+    gopherEarLMesh = addParts(rootEarL, geometry, materials, 40);
     createGopher();
   });
   loader.load('./models/gopher_slimdataBody.json', (geometry, materials) => {
-    const faceMaterial = new THREE.MultiMaterial(materials);
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
-    gopherBodyMesh = new THREE.Mesh(geometry, faceMaterial);
+    gopherBodyMesh = new THREE.Mesh(geometry, materials);
     gopherBodyMesh.scale.set(40, 40, 40);
 
     createGopher();

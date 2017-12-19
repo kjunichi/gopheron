@@ -87,6 +87,8 @@ function gopheronMain(golangMode) {
     return mesh;
   }
 
+
+
   function gopher() {
 
     root.position.x = -1000;
@@ -100,7 +102,6 @@ function gopheronMain(golangMode) {
     let sHL = -1;
 
     const animate = () => {
-
       if (root.position.x > 1000) {
         accx = -1;
         root.rotation.y = -2.8;
@@ -201,11 +202,28 @@ function gopheronMain(golangMode) {
       if (gopherERMesh.rotation.x < -0.5) {
         gopherERMesh.rotation.x = -0.5
       }
-
-      requestAnimationFrame(animate);
       renderer.render(scene, camera);
+      // //console.log(renderer.domElement);
+      // const sctx = renderer.domElement.getContext("webgl");
+      // //console.log(sctx);
+      // const pdata =  new Uint8Array(4*cs3.width*cs3.height);
+      // sctx.readPixels(0,0,sctx.drawingBufferWidth,sctx.drawingBufferHeight,sctx.RGBA,sctx.UNSIGNED_BYTE,pdata);
+      // const dctx = cs3.getContext("2d");
+      // const image = dctx.getImageData(0,0,sctx.drawingBufferWidth,sctx.drawingBufferHeight);
+      // for(let y=0;y < sctx.drawingBufferHeight;y++){
+      //   for(let x=0; x < sctx.drawingBufferWidth;x++) {
+      //     image.data[4*((cs3.height-y)*cs3.width+x)+0] = pdata[4*(y*cs3.width+x)+0];
+      //     image.data[4*((cs3.height-y)*cs3.width+x)+1] = pdata[4*(y*cs3.width+x)+1];
+      //     image.data[4*((cs3.height-y)*cs3.width+x)+2] = pdata[4*(y*cs3.width+x)+2];
+      //     image.data[4*((cs3.height-y)*cs3.width+x)+3] = pdata[4*(y*cs3.width+x)+3];
+      //   }
+      // }
+      // //for(let i =0;i< 4*width*height;i++){
+      //   //image.data[4*width*height-i]=pdata[i];
+      // //}
+      // dctx.putImageData(image,0,0);
+      requestAnimationFrame(animate);
     }
-
     animate();
     if (golangMode) {
       socket.emit('gopher', 'ok');
@@ -225,7 +243,7 @@ function gopheronMain(golangMode) {
   const height = window.innerHeight * 0.98;
   // シーン
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x000000, 0.00035);
+  //scene.fog = new THREE.FogExp2(0x000000, 0.00035);
   // カメラ
   const camera = new THREE.PerspectiveCamera(50, width / height, 1, 10000);
   camera.position.z = 1400;
@@ -243,12 +261,15 @@ function gopheronMain(golangMode) {
   // レンダラー
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
-    preserveDrawingBuffer: true
+    preserveDrawingBuffer: false
   });
   renderer.setSize(width, height);
   //
   document.body.appendChild(renderer.domElement);
-
+  // const cs3 = document.createElement("canvas");
+  // cs3.width = width;
+  // cs3.height = height;
+  // document.body.appendChild(cs3);
   // モデル
   //オブジェクト
 

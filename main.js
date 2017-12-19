@@ -1,25 +1,25 @@
-"use strict";
+'use strict';
 
 const electron = require('electron');
-const {app} = electron; // Module to control application life.
+const {app} = electron;  // Module to control application life.
 const {BrowserWindow} = electron;
 const {ipcMain} = electron;
 let socket;
 // Report crashes to our server.
-//require('crash-reporter').start();
+// require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
 let golangMode = false;
 
-if (JSON.stringify(process.argv).indexOf("--with-golang")>0) {
+if (JSON.stringify(process.argv).indexOf('--with-golang') > 0) {
   // golang mode.
   socket = require('socket.io-client')('http://localhost:5050/gopheron');
   golangMode = true;
-}
+  }
 
-if(process.platform.indexOf("linux")>=0) {
+if (process.platform.indexOf('linux') >= 0) {
   app.commandLine.appendSwitch('--enable-transparent-visuals');
   app.commandLine.appendSwitch('--disable-gpu');
 }
@@ -36,9 +36,9 @@ app.on('window-all-closed', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
-  if(golangMode) {
-    socket.emit("electron start", "status OK");
-  }
+  if (golangMode) {
+    socket.emit('electron start', 'status OK');
+    }
   const electronScreen = electron.screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
   // Create the browser window.
@@ -47,17 +47,17 @@ app.on('ready', () => {
     height: size.height,
     transparent: true,
     frame: false,
-    "always-on-top": true,
+    //'always-on-top': true,
     show: false,
-    "title-bar-style": "hidden-inset"
+    'title-bar-style': 'hidden-inset'
   });
-  mainWindow.on('ready-to-show',()=>{
+  mainWindow.on('ready-to-show', () => {
     mainWindow.show();
     mainWindow.focus();
   });
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html?golang=${golangMode}`);
-  if(!process.env.DEBUG) {
+  if (!process.env.DEBUG) {
     mainWindow.setIgnoreMouseEvents(true);
   }
 

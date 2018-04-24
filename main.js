@@ -68,4 +68,12 @@ app.on('ready', () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  ipcMain.on('bringToFront', (event, arg)=> {
+    console.log(`bringToFront: ${arg}`)  // prints "ping"
+    mainWindow.setAlwaysOnTop(true);
+    setTimeout(()=>{
+      mainWindow.setAlwaysOnTop(false);
+    },arg);
+  });
 });

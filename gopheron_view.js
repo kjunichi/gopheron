@@ -1,4 +1,5 @@
 "use strict";
+const {ipcRenderer} = require('electron');
 
 function gopheronMain(golangMode) {
 
@@ -18,7 +19,7 @@ function gopheronMain(golangMode) {
     ctx.closePath();
     ctx.fill();
     /* フォントスタイルを定義 */
-    ctx.font = "26px 'ＭＳ Ｐゴシック'";
+    ctx.font = "28px 'ＭＳ Ｐゴシック'";
 
     ctx.strokeStyle = "blue";
     ctx.fillStyle = "rgb(0, 0, 225)";
@@ -86,8 +87,6 @@ function gopheronMain(golangMode) {
     obj.add(mesh);
     return mesh;
   }
-
-
 
   function gopher() {
 
@@ -260,9 +259,11 @@ function gopheronMain(golangMode) {
   scene.add(ambientLight);
   // レンダラー
   const renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    preserveDrawingBuffer: false
-  });
+     alpha: true,
+     preserveDrawingBuffer: false
+   });
+  // const renderer = new THREE.CanvasRenderer({alpha:true});
+  renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize(width, height);
   //
   document.body.appendChild(renderer.domElement);
@@ -336,7 +337,6 @@ function gopheronMain(golangMode) {
     createGopher();
   });
 
-
   //グリッド
   const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
   const planeMaterial = new THREE.MeshBasicMaterial({
@@ -364,6 +364,11 @@ function gopheronMain(golangMode) {
         gopherMove = true;
       }, 30000)
     });
+    socket.on('front', (data) => {
+      console.log(`front: ${data}`);
+      ipcRenderer.send('bringToFront', data);
+    });
+    
     console.log(`golangMode = ${golangMode}`)
   }
 }

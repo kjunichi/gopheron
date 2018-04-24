@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/googollee/go-socket.io"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
-	"strconv"
-  	"path"
+	"path"
 	"path/filepath"
+	"strconv"
+
+	"github.com/googollee/go-socket.io"
 )
 
 func socketIoServer(port int) {
@@ -40,6 +41,12 @@ func socketIoServer(port int) {
 			so.Emit("gopher recv", "send: ok")
 		})
 
+		so.On("gopher front", func(msg string) {
+			log.Println("gopher front :", msg)
+			so.BroadcastTo("gopher", "front", msg)
+			so.Emit("gopher recv", "send: ok")
+		})
+
 		so.On("disconnection", func() {
 			log.Println("on disconnect")
 		})
@@ -55,8 +62,8 @@ func socketIoServer(port int) {
 }
 
 func Exists(filename string) bool {
-    _, err := os.Stat(filename)
-    return err == nil
+	_, err := os.Stat(filename)
+	return err == nil
 }
 
 func GetElectronPath(gopheronPath string) string {
@@ -70,7 +77,7 @@ func GetElectronPath(gopheronPath string) string {
 
 func startElectron() {
 	gopheronPath := path.Dir(os.Args[0])
-	
+
 	out, err := exec.Command(GetElectronPath(gopheronPath), "--with-golang", gopheronPath).Output()
 	if err != nil {
 		fmt.Println(err)

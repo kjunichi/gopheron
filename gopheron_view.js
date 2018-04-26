@@ -364,10 +364,7 @@ function gopheronMain(golangMode) {
         gopherMove = true;
       }, 30000)
     });
-    socket.on('front', (data) => {
-      console.log(`front: ${data}`);
-      ipcRenderer.send('bringToFront', data);
-    });
+    
     
     console.log(`golangMode = ${golangMode}`)
   }

@@ -1,5 +1,13 @@
 "use strict";
-const {ipcRenderer} = require('electron');
+
+let ipcRenderer;
+
+try {
+  ipcRenderer = require('electron').ipcRenderer;
+} catch(e) {
+  // PWA mode detected.
+  console.log(`${e}`);
+}
 
 function gopheronMain(golangMode) {
 

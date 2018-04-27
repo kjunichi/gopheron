@@ -6,7 +6,7 @@
     "test": "./test.sh"
   },
   "dependencies": {
-    "electron": "^2.0.0-beta.7",
+    "electron": "^2.0.0-beta.8",
     "grpc": "^1.10.1",
     "jscs": "^3.0.7",
     "socket.io-client": "^1.4.8"

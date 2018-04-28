@@ -11,10 +11,65 @@ try {
 
 function gopheronMain(golangMode) {
 
+  const drawHthml = (html, texture) => {
+    const getWellFormedHtml = (html) => {
+      const doc = document.implementation.createHTMLDocument("test");
+      const range = doc.createRange();
+      range.selectNodeContents(doc.documentElement);
+      range.deleteContents();
+      const h = document.createElement("head");
+      /*
+      var css = document.createElement("link");
+      css.setAttribute("rel","stylesheet");
+      css.setAttribute("type","text/css");
+      css.setAttribute("href","http://jsdo.it/kjunichi/hKYA/css");
+      h.appendChild(css);
+      */
+      doc.documentElement.appendChild(h);
+      doc.documentElement.appendChild(range.createContextualFragment(html));
+      console.log("doc.documentElement.namespaceURI : "+doc.documentElement.namespaceURI);
+      doc.documentElement.setAttribute("xmlns", doc.documentElement.namespaceURI);
+  
+      // Get well-formed markup
+      const wfHtml = (new XMLSerializer).serializeToString(doc);
+      console.log(wfHtml);
+      return wfHtml.replace(/\<\!DOCTYPE html\>/, "");
+    };
+    
+    const wfHtml = getWellFormedHtml(html);
+    console.log(wfHtml);
+    const canvas = texture.image;
+    const data = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">` +
+        `<foreignObject width="100%" height="100%">${wfHtml}</foreignObject></svg>`;
+    
+    const img = new Image();
+    img.onload = () => {
+      const ctx = canvas.getContext("2d");
+      const ww = 300;
+      const hh = 50;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "rgb(245, 245, 245)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height - hh);
+      ctx.beginPath();
+      ctx.moveTo(0 + ww, canvas.height - hh);
+      ctx.lineTo(canvas.width - ww, canvas.height - hh);
+      ctx.lineTo(canvas.width / 2, canvas.height);
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.drawImage(img, 0,0);
+      texture.needsUpdate = true;
+    };
+    const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(data);
+    img.src = url;
+  };
+
   function setupText(msg) {
     const ww = 300;
     const hh = 50;
     console.log(`setupText ${msg}`)
+    const cs = texture.image;
     const ctx = cs.getContext("2d");
     //ctx.globalAlpha = 0.0;
     ctx.clearRect(0, 0, cs.width, cs.height);
@@ -36,6 +91,10 @@ function gopheronMain(golangMode) {
   }
 
   function makeGopherBoard() {
+    const cs = document.createElement("canvas");
+    cs.width = 512*0.8;
+    cs.height = 256*0.8;
+    
     const gopherBoard = new THREE.PlaneGeometry(512, 256, 1, 1);
     texture = new THREE.Texture(cs, THREE.UVMapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping);
     setupText("...");
@@ -210,25 +269,7 @@ function gopheronMain(golangMode) {
         gopherERMesh.rotation.x = -0.5
       }
       renderer.render(scene, camera);
-      // //console.log(renderer.domElement);
-      // const sctx = renderer.domElement.getContext("webgl");
-      // //console.log(sctx);
-      // const pdata =  new Uint8Array(4*cs3.width*cs3.height);
-      // sctx.readPixels(0,0,sctx.drawingBufferWidth,sctx.drawingBufferHeight,sctx.RGBA,sctx.UNSIGNED_BYTE,pdata);
-      // const dctx = cs3.getContext("2d");
-      // const image = dctx.getImageData(0,0,sctx.drawingBufferWidth,sctx.drawingBufferHeight);
-      // for(let y=0;y < sctx.drawingBufferHeight;y++){
-      //   for(let x=0; x < sctx.drawingBufferWidth;x++) {
-      //     image.data[4*((cs3.height-y)*cs3.width+x)+0] = pdata[4*(y*cs3.width+x)+0];
-      //     image.data[4*((cs3.height-y)*cs3.width+x)+1] = pdata[4*(y*cs3.width+x)+1];
-      //     image.data[4*((cs3.height-y)*cs3.width+x)+2] = pdata[4*(y*cs3.width+x)+2];
-      //     image.data[4*((cs3.height-y)*cs3.width+x)+3] = pdata[4*(y*cs3.width+x)+3];
-      //   }
-      // }
-      // //for(let i =0;i< 4*width*height;i++){
-      //   //image.data[4*width*height-i]=pdata[i];
-      // //}
-      // dctx.putImageData(image,0,0);
+      
       requestAnimationFrame(animate);
     }
     animate();
@@ -237,13 +278,7 @@ function gopheronMain(golangMode) {
     }
   }
   let texture;
-  const cs = document.createElement("canvas");
-  cs.width = 512;
-  cs.height = 256;
-  const cs2 = document.createElement("canvas");
-  cs2.width = cs.width;
-  cs2.height = cs.height;
-
+  
   const gopherBoardMesh = makeGopherBoard();
 
   const width = window.innerWidth * 0.98;
@@ -257,7 +292,7 @@ function gopheronMain(golangMode) {
   camera.position.y = 200;
   //camera.rotation.z = 0.2;
   camera.lookAt(new THREE.Vector3(0,200,0));
-  //console.dir(camera);
+  
   // 光源
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
   directionalLight.position.set(1, 1, 2);
@@ -275,10 +310,7 @@ function gopheronMain(golangMode) {
   renderer.setSize(width, height);
   //
   document.body.appendChild(renderer.domElement);
-  // const cs3 = document.createElement("canvas");
-  // cs3.width = width;
-  // cs3.height = height;
-  // document.body.appendChild(cs3);
+  
   // モデル
   //オブジェクト
 
@@ -351,15 +383,20 @@ function gopheronMain(golangMode) {
     color: 0x000000,
     wireframe: true
   });
-  const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-  planeMesh.position.y = -100;
-  planeMesh.rotation.x = 90 * 2 * Math.PI / 360; //左に角度いれるとラジアンに変換
   let socket;
   let gopherMove = true;
   if (golangMode) {
     socket = io('http://localhost:5050');
     socket.on('news', (data) => {
       setupText(data);
+      scene.add(gopherBoardMesh);
+      texture.needsUpdate = true;
+      setTimeout(() => {
+        scene.remove(gopherBoardMesh);
+      }, 15000);
+    });
+    socket.on('writeHtml', (data) => {
+      drawHthml(data, texture);
       scene.add(gopherBoardMesh);
       texture.needsUpdate = true;
       setTimeout(() => {

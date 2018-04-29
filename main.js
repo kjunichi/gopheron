@@ -1,9 +1,15 @@
 'use strict';
 
 const electron = require('electron');
-const {app} = electron;  // Module to control application life.
-const {BrowserWindow} = electron;
-const {ipcMain} = electron;
+const {
+  app
+} = electron; // Module to control application life.
+const {
+  BrowserWindow
+} = electron;
+const {
+  ipcMain
+} = electron;
 let socket;
 // Report crashes to our server.
 // require('crash-reporter').start();
@@ -17,7 +23,14 @@ if (JSON.stringify(process.argv).indexOf('--with-golang') > 0) {
   // golang mode.
   socket = require('socket.io-client')('http://localhost:5050/gopheron');
   golangMode = true;
-  }
+  socket.on('front', (data) => {
+    console.log(`bringToFront: ${data}`) // prints "ping"
+    mainWindow.setAlwaysOnTop(true);
+    setTimeout(() => {
+      mainWindow.setAlwaysOnTop(false);
+    }, data);
+  });
+}
 
 if (process.platform.indexOf('linux') >= 0) {
   app.commandLine.appendSwitch('--enable-transparent-visuals');
@@ -38,7 +51,7 @@ app.on('window-all-closed', () => {
 app.on('ready', () => {
   if (golangMode) {
     socket.emit('electron start', 'status OK');
-    }
+  }
   const electronScreen = electron.screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
   // Create the browser window.
@@ -67,5 +80,13 @@ app.on('ready', () => {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
+  });
+
+  ipcMain.on('bringToFront', (event, arg) => {
+    console.log(`bringToFront: ${arg}`) // prints "ping"
+    mainWindow.setAlwaysOnTop(true);
+    setTimeout(() => {
+      mainWindow.setAlwaysOnTop(false);
+    }, arg);
   });
 });

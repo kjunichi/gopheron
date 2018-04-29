@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/googollee/go-socket.io"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
-	"strconv"
-  	"path"
+	"path"
 	"path/filepath"
+	"strconv"
+
+	"github.com/googollee/go-socket.io"
 )
 
 func socketIoServer(port int) {
@@ -34,9 +35,21 @@ func socketIoServer(port int) {
 			so.Emit("gopher recv", "send: ok")
 		})
 
+		so.On("gopher sendHtml", func(msg string) {
+			log.Println("gopher sendHtml :", msg)
+			so.BroadcastTo("gopher", "writeHtml", msg)
+			so.Emit("gopher recv", "send: ok")
+		})
+
 		so.On("gopher stop", func(msg string) {
 			log.Println("gopher stop :", msg)
 			so.BroadcastTo("gopher", "stop", msg)
+			so.Emit("gopher recv", "send: ok")
+		})
+
+		so.On("gopher front", func(msg string) {
+			log.Println("gopher front :", msg)
+			so.BroadcastTo("gopher", "front", msg)
 			so.Emit("gopher recv", "send: ok")
 		})
 
@@ -54,15 +67,15 @@ func socketIoServer(port int) {
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), nil))
 }
 
-func Exists(filename string) bool {
-    _, err := os.Stat(filename)
-    return err == nil
+func exists(filename string) bool {
+	_, err := os.Stat(filename)
+	return err == nil
 }
 
-func GetElectronPath(gopheronPath string) string {
+func getElectronPath(gopheronPath string) string {
 	localElectron := gopheronPath + "/" + "node_modules/.bin/electron"
 	electronPath := "electron"
-	if Exists(localElectron) {
+	if exists(localElectron) {
 		return filepath.FromSlash(localElectron)
 	}
 	return electronPath
@@ -70,8 +83,8 @@ func GetElectronPath(gopheronPath string) string {
 
 func startElectron() {
 	gopheronPath := path.Dir(os.Args[0])
-	
-	out, err := exec.Command(GetElectronPath(gopheronPath), "--with-golang", gopheronPath).Output()
+
+	out, err := exec.Command(getElectronPath(gopheronPath), "--with-golang", gopheronPath).Output()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -79,6 +92,7 @@ func startElectron() {
 
 	fmt.Println(string(out))
 }
+
 func main() {
 	go socketIoServer(5050)
 	startElectron()

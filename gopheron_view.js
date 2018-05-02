@@ -39,8 +39,10 @@ function gopheronMain(golangMode) {
     const wfHtml = getWellFormedHtml(html);
     console.log(wfHtml);
     const canvas = texture.image;
-    const data = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">` +
-        `<foreignObject width="100%" height="100%">${wfHtml}</foreignObject></svg>`;
+    const svgWidth = canvas.width;
+    const svgHeight = canvas.height;
+    const data = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}">` +
+        `<foreignObject width="110%" height="110%">${wfHtml}</foreignObject></svg>`;
     
     const img = new Image();
     img.onload = () => {
@@ -58,7 +60,7 @@ function gopheronMain(golangMode) {
       ctx.closePath();
       ctx.fill();
       
-      ctx.drawImage(img, 0,0);
+      ctx.drawImage(img, 0,0,svgWidth,svgHeight,0,0,canvas.width,canvas.height);
       texture.needsUpdate = true;
     };
     const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(data);
@@ -92,8 +94,8 @@ function gopheronMain(golangMode) {
 
   function makeGopherBoard() {
     const cs = document.createElement("canvas");
-    cs.width = 512*0.8;
-    cs.height = 256*0.8;
+    cs.width = 512;
+    cs.height = 256;
     
     const gopherBoard = new THREE.PlaneGeometry(512, 256, 1, 1);
     texture = new THREE.Texture(cs, THREE.UVMapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping);

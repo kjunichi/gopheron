@@ -9,7 +9,7 @@ socket.on('test', (msg) => {
 socket.on('event', (data) => {
   console.log(`event recv! ${data}`)
 })
-socket.on('disconnect', function () {})
+socket.on('disconnect', function() {})
 socket.on('chat message', (msg) => {
   console.log(`onChat msg = ${msg}`)
 })
@@ -24,7 +24,7 @@ const procGrpc = (socket, argv) => {
   client.sayHelloAgain({
     name: argv
   }, (err, response) => {
-    console.log('Greeting:', response.message)
+    //console.log('Greeting:', response.message)
     const html = `<div style="display: flex;flex-wrap:no-wrap;"><div style="width: 132px;padding-right: 2px"><img src="${icon}"></div><div style="font-size: 27px;wrap">${response.message}</div></div>`
 
     socket.emit('gopher sendHtml', html)
@@ -32,7 +32,7 @@ const procGrpc = (socket, argv) => {
 }
 
 socket.on('connect', () => {
-  console.log('connect!')
+  //console.log('connect!')
   let count = 0
   socket.emit('gopher front', '1000')
   count++
@@ -41,7 +41,6 @@ socket.on('connect', () => {
     if (i < 2) {
       continue
     }
-    console.log(i)
     argv.push(process.argv[i])
   }
   if (argv.length > 0) {

@@ -399,8 +399,8 @@ function gopheronMain(golangMode) {
       }, 15000)
     })
     socket.on('stop', (data) => {
-      let timeout =30000
-      if(!data) {
+      let timeout = 30000
+      if (!data) {
         timeout = data
       }
       gopherMove = false

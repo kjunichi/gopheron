@@ -14,6 +14,22 @@ socket.on('chat message', (msg) => {
   console.log(`onChat msg = ${msg}`)
 })
 
+const getEmoji = (text) => {
+  if(text.indexOf('temp')>=0) {
+    return '🌡'
+  }
+  if(text.indexOf('frequency')>=0){
+    return '〰️'
+  }
+  if(text.indexOf('volt')>=0) {
+    return '⚡️'
+  }
+  if(text.trim().endsWith('M')) {
+    return '🗄'
+  }
+  return ''
+}
+
 const procGrpc = (socket, argv) => {
   console.log(`argv = ${argv}`)
   const PROTO_PATH = __dirname + '/helloworld.proto'
@@ -25,7 +41,9 @@ const procGrpc = (socket, argv) => {
     name: argv
   }, (err, response) => {
     //console.log('Greeting:', response.message)
-    const html = `<div style="display: flex;flex-wrap:no-wrap;"><div style="width: 132px;padding-right: 2px"><img src="${icon}"></div><div style="font-size: 27px;wrap">${response.message}</div></div>`
+    const tmp = response.message
+    const msg = `${tmp}<span style="font-size:larger">${getEmoji(tmp)}</span>`
+    const html = `<div style="display: flex;flex-wrap:no-wrap;"><div style="width: 132px;padding-right: 2px"><img src="${icon}"></div><div style="font-size: 27px;wrap">${msg}</div></div>`
 
     socket.emit('gopher sendHtml', html)
   })

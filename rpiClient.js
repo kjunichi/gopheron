@@ -42,7 +42,7 @@ const procGrpc = (socket, argv) => {
   }, (err, response) => {
     //console.log('Greeting:', response.message)
     const tmp = response.message
-    const msg = `${tmp}<span style="font-size:larger">${getEmoji(tmp)}</span>`
+    const msg = `${tmp}<span style="font-size:larger;font-family: 'Segoe UI Emoji';">${getEmoji(tmp)}</span>`
     const html = `<div style="display: flex;flex-wrap:no-wrap;"><div style="width: 132px;padding-right: 2px"><img src="${icon}"></div><div style="font-size: 27px;wrap">${msg}</div></div>`
 
     socket.emit('gopher sendHtml', html)

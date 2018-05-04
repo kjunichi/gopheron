@@ -16,7 +16,7 @@
         "shading":"phong",
         "colorEmissive":[0,0,0],
         "vertexColors":false,
-        "colorSpecular":[0.5,0.5,0.5],
+        "colorSpecular":[0.125,0.125,0.125],
         "doubleSided":true,
         "wireframe":false,
         "DbgColor":15658734,

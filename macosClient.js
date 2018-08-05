@@ -1,5 +1,6 @@
 const socket = require('socket.io-client')('http://localhost:5050')
-
+const grpc = require('grpc')
+const protoLoader = require('@grpc/proto-loader')
 
 socket.on('test', (msg) => {
   console.log(`form server ! ${msg}`)
@@ -32,10 +33,20 @@ const getEmoji = (text) => {
 const procGrpc = (socket, argv) => {
   console.log(`argv = ${argv}`)
   const PROTO_PATH = __dirname + '/helloworld.proto'
-  const grpc = require('grpc')
-  const hello_proto = grpc.load(PROTO_PATH).helloworld
+
+  const packageDefinition = protoLoader.loadSync(
+    PROTO_PATH,
+    {
+      keepCase: true,
+      longs: String,
+      enums: String,
+      defaults: true,
+      oneofs: true
+    })
+  const protoDescriptor = grpc.loadPackageDefinition(packageDefinition)
+  const helloworld = protoDescriptor.helloworld
   const host = argv.split(' ')[0]
-  const client = new hello_proto.Greeter(`${host}:50051`,
+  const client = new helloworld.Greeter(`${host}:50051`,
     grpc.credentials.createInsecure())
   client.sayHelloAgain({
     name: "dummy"
@@ -51,8 +62,6 @@ const procGrpc = (socket, argv) => {
 socket.on('connect', () => {
   //console.log('connect!')
   let count = 0
-  socket.emit('gopher front', '1000')
-  count++
   const argv = []
   for (const i in process.argv) {
     if (i < 2) {
@@ -60,6 +69,9 @@ socket.on('connect', () => {
     }
     argv.push(process.argv[i])
   }
+  socket.emit('gopher front', '1000')
+  count++
+
   if (argv.length > 0) {
     procGrpc(socket, argv.join(' '))
     count++

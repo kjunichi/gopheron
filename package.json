@@ -11,7 +11,6 @@
     "engine.io-client": "^3.2.1",
     "eslint": "^4.19.1",
     "grpc": "^1.10.1",
-    "jscs": "^3.0.7",
     "socket.io-client": "^2.1.1"
   }
 }

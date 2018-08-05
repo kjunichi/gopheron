@@ -2,33 +2,7 @@ const socket = require('socket.io-client')('http://localhost:5050')
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
 
-socket.on('test', (msg) => {
-  console.log(`form server ! ${msg}`)
-})
-
-socket.on('event', (data) => {
-  console.log(`event recv! ${data}`)
-})
 socket.on('disconnect', function () { })
-socket.on('chat message', (msg) => {
-  console.log(`onChat msg = ${msg}`)
-})
-
-const getEmoji = (text) => {
-  if (text.indexOf('temp') >= 0) {
-    return '🌡'
-  }
-  if (text.indexOf('frequency') >= 0) {
-    return '〰️'
-  }
-  if (text.indexOf('volt') >= 0) {
-    return '⚡️'
-  }
-  if (text.trim().endsWith('M')) {
-    return '🗄'
-  }
-  return ''
-}
 
 const procGrpc = (socket, argv) => {
   console.log(`argv = ${argv}`)

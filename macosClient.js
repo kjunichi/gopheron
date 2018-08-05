@@ -2,7 +2,7 @@ const socket = require('socket.io-client')('http://localhost:5050')
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
 
-socket.on('disconnect', function () { })
+socket.on('disconnect', () => { })
 
 const procGrpc = (socket, argv) => {
   console.log(`argv = ${argv}`)

@@ -46,9 +46,10 @@ app.on('ready', () => {
   }
 
   app.setName("gopheron")
-  // macOS only
+
   const iconimage = nativeImage.createFromPath(`${__dirname}/gopheron_icon.png`)
-  if(app.dock) {
+  if (app.dock) {
+    // macOS only
     app.dock.setIcon(iconimage)
   }
   const electronScreen = electron.screen
@@ -63,6 +64,12 @@ app.on('ready', () => {
     show: false,
     'title-bar-style': 'hidden-inset'
   })
+
+  if (mainWindow.setIcon) {
+    // For windows and Linux
+    mainWindow.setIcon(iconimage)
+  }
+  
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
     mainWindow.focus()

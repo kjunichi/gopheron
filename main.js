@@ -48,8 +48,9 @@ app.on('ready', () => {
   app.setName("gopheron")
   // macOS only
   const iconimage = nativeImage.createFromPath(`${__dirname}/gopheron_icon.png`)
-  app.dock.setIcon(iconimage)
-
+  if(app.dock) {
+    app.dock.setIcon(iconimage)
+  }
   const electronScreen = electron.screen
   const size = electronScreen.getPrimaryDisplay().workAreaSize
   // Create the browser window.

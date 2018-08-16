@@ -1,15 +1,7 @@
 'use strict'
 
 const electron = require('electron')
-const {
-  app
-} = electron // Module to control application life.
-const {
-  BrowserWindow
-} = electron
-const {
-  ipcMain
-} = electron
+const { app, BrowserWindow, ipcMain, nativeImage } = electron // Module to control application life.
 let socket
 // Report crashes to our server.
 // require('crash-reporter').start()
@@ -52,6 +44,12 @@ app.on('ready', () => {
   if (golangMode) {
     socket.emit('electron start', 'status OK')
   }
+
+  app.setName("gopheron")
+  // macOS only
+  const iconimage = nativeImage.createFromPath(`${__dirname}/gopheron_icon.png`)
+  app.dock.setIcon(iconimage)
+
   const electronScreen = electron.screen
   const size = electronScreen.getPrimaryDisplay().workAreaSize
   // Create the browser window.

@@ -46,9 +46,9 @@ app.on('ready', () => {
   }
 
   app.setName("gopheron")
-  
+
   const iconimage = nativeImage.createFromPath(`${__dirname}/gopheron_icon.png`)
-  if(app.dock) {
+  if (app.dock) {
     // macOS only
     app.dock.setIcon(iconimage)
   }
@@ -64,10 +64,12 @@ app.on('ready', () => {
     show: false,
     'title-bar-style': 'hidden-inset'
   })
-  
-  // For windows and Linux
-  mainWindow.setIcon(iconimage)
 
+  if (mainWindow.setIcon) {
+    // For windows and Linux
+    mainWindow.setIcon(iconimage)
+  }
+  
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
     mainWindow.focus()

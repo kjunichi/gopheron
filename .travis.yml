@@ -14,6 +14,7 @@ install:
   
 script:
   - npm install
+  - npm uninstall electron
   - npm install -g electron
   - chmod +x build_osmesa.sh
   - ./build_osmesa.sh

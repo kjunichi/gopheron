@@ -1,7 +1,7 @@
 'use strict'
 
 const electron = require('electron')
-const { app, BrowserWindow, ipcMain, nativeImage, shell } = electron // Module to control application life.
+const { app, BrowserWindow, ipcMain, nativeImage, shell, Menu } = electron // Module to control application life.
 const path = require('path')
 const openAboutWindow = require('about-window').default
 
@@ -77,6 +77,16 @@ app.on('ready', () => {
   if (app.dock) {
     // macOS only
     app.dock.setIcon(iconimage)
+    const dockMenu = Menu.buildFromTemplate([{
+        label: 'About gopheron',
+        click: function () {
+          console.log('About gopheron')
+          aboutWindow()
+        }
+      }
+    ])
+
+    app.dock.setMenu(dockMenu)
   }
 
   const electronScreen = electron.screen
@@ -96,7 +106,7 @@ app.on('ready', () => {
     // For windows and Linux
     mainWindow.setIcon(iconimage)
 
-    const playIcon = nativeImage.createFromPath(path.join(__dirname,'asset','about_icon.png'))
+    const playIcon = nativeImage.createFromPath(path.join(__dirname, 'asset', 'about_icon.png'))
     const buttons = [{
       tooltip: 'About gopheron...',
       icon: playIcon,

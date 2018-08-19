@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
-    "electron": "^2.0.0-beta.8",
+    "about-window": "^1.12.1",
+    "electron": "^2.0.7",
     "engine.io-client": "^3.2.1",
     "eslint": "^4.19.1",
     "grpc": "^1.10.1",
     "socket.io-client": "^2.1.1"
-  }
+  },
+  "license": "MIT"
 }

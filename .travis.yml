@@ -14,6 +14,7 @@ install:
   
 script:
   - npm install
+  - npm install -g electron
   - chmod +x build_osmesa.sh
   - ./build_osmesa.sh
   - cp libosmesa.so `npm config get prefix`/lib/node_modules/electron/dist

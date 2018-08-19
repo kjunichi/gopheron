@@ -13,7 +13,7 @@ install:
   - Xvfb :99 -screen 0 640x480x24 > /dev/null 2>&1 &
   
 script:
-  - npm install -g electron
+  - npm install
   - chmod +x build_osmesa.sh
   - ./build_osmesa.sh
   - cp libosmesa.so `npm config get prefix`/lib/node_modules/electron/dist

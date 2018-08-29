@@ -282,8 +282,8 @@ function gopheronMain(golangMode) {
 
   const gopherBoardMesh = makeGopherBoard()
 
-  const width = window.innerWidth * 0.98
-  const height = window.innerHeight * 0.98
+  const width = window.innerWidth * 0.97
+  const height = window.innerHeight * 0.97
   // シーン
   const scene = new THREE.Scene()
   //scene.fog = new THREE.FogExp2(0x000000, 0.00035)

@@ -9,7 +9,7 @@ try {
   console.log(`${e}`)
 }
 
-function gopheronMain(golangMode) {
+const gopheronMain = (golangMode) => {
 
   const drawHthml = (html, texture) => {
     const getWellFormedHtml = (html) => {
@@ -27,12 +27,12 @@ function gopheronMain(golangMode) {
       */
       doc.documentElement.appendChild(h)
       doc.documentElement.appendChild(range.createContextualFragment(html))
-      console.log('doc.documentElement.namespaceURI : ' + doc.documentElement.namespaceURI)
+      //console.log('doc.documentElement.namespaceURI : ' + doc.documentElement.namespaceURI)
       doc.documentElement.setAttribute('xmlns', doc.documentElement.namespaceURI)
 
       // Get well-formed markup
       const wfHtml = (new XMLSerializer).serializeToString(doc)
-      console.log(wfHtml)
+      //console.log(wfHtml)
       return wfHtml.replace(/<!DOCTYPE html>/, '')
     }
 

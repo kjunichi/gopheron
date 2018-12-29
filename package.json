@@ -8,11 +8,13 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
     "about-window": "^1.12.1",
-    "electron": "^2.0.8",
-    "engine.io-client": "^3.2.1",
+    "electron": "^3.0.10",
+    "engine.io-client": "^3.3.1",
     "eslint": "^4.19.1",
-    "grpc": "^1.10.1",
-    "socket.io-client": "^2.1.1"
+    "grpc": "^1.16.1",
+    "nodejs-tail": "^1.0.2",
+    "socket.io-client": "^2.1.1",
+    "tail": "^2.0.2"
   },
   "license": "MIT"
 }

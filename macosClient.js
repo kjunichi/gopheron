@@ -28,6 +28,7 @@ const procGrpc = (socket, argv) => {
     if (!err) {
       const tmp = response.message
       const html = `${tmp}`
+      socket.emit('gopher front', '1000')
       socket.emit('gopher sendHtml', html)
     }
   })
@@ -43,12 +44,10 @@ socket.on('connect', () => {
     }
     argv.push(process.argv[i])
   }
-  socket.emit('gopher front', '1000')
-  count++
 
   if (argv.length > 0) {
+    count=2;
     procGrpc(socket, argv.join(' '))
-    count++
   }
 
   socket.on('gopher recv', (msg) => {

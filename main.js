@@ -42,7 +42,7 @@ if (JSON.stringify(process.argv).indexOf('--with-golang') > 0) {
   socket = require('socket.io-client')('http://localhost:5050/gopheron')
   golangMode = true
   socket.on('front', (data) => {
-    console.log(`bringToFront: ${data}`) // prints "ping"
+    //console.log(`bringToFront: ${data}`) // prints "ping"
     mainWindow.setAlwaysOnTop(true)
     setTimeout(() => {
       mainWindow.setAlwaysOnTop(false)

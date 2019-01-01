@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/googollee/go-socket.io"
+	socketio "github.com/googollee/go-socket.io"
 )
 
 func socketIoServer(port int) {
@@ -38,7 +38,7 @@ func socketIoServer(port int) {
 		so.On("gopher sendHtml", func(msg string) {
 			// log.Println("gopher sendHtml :", msg)
 			so.BroadcastTo("gopher", "writeHtml", msg)
-			so.Emit("gopher recv", "send: ok")
+			so.Emit("gopher recv", "send: ok writeHtml")
 		})
 
 		so.On("gopher stop", func(msg string) {
@@ -50,7 +50,7 @@ func socketIoServer(port int) {
 		so.On("gopher front", func(msg string) {
 			log.Println("gopher front :", msg)
 			so.BroadcastTo("gopher", "front", msg)
-			so.Emit("gopher recv", "send: ok")
+			so.Emit("gopher recv", "send: ok front")
 		})
 
 		so.On("disconnection", func() {

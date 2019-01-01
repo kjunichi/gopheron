@@ -12,7 +12,7 @@ socket.on('test', (msg) => {
 socket.on('event', (data) => {
   console.log(`event recv! ${data}`)
 })
-socket.on('disconnect', function () { })
+socket.on('disconnect', function() {})
 socket.on('chat message', (msg) => {
   console.log(`onChat msg = ${msg}`)
 })
@@ -36,8 +36,7 @@ const getEmoji = (text) => {
 const procGrpc = (socket, argv) => {
   console.log(`argv = ${argv}`)
   const packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {
+    PROTO_PATH, {
       keepCase: true,
       longs: String,
       enums: String,
@@ -62,26 +61,38 @@ const procGrpc = (socket, argv) => {
 
 socket.on('connect', () => {
   //console.log('connect!')
-  let count = 0
-  socket.emit('gopher front', '1000')
-  count++
-  const argv = []
-  for (const i in process.argv) {
-    if (i < 2) {
-      continue
-    }
-    argv.push(process.argv[i])
-  }
-  if (argv.length > 0) {
-    procGrpc(socket, argv.join(' '))
-    count++
-  }
+  let count = 2
 
   socket.on('gopher recv', (msg) => {
-    console.log(`recv: ${msg}`)
+    console.log(`recv: ${msg} : count = ${count}`)
     count--
     if (count <= 0) {
       process.exit(0)
     }
+    const argv = []
+    for (const i in process.argv) {
+      if (i < 2) {
+        continue
+      }
+      argv.push(process.argv[i])
+    }
+    if (argv.length > 0) {
+      procGrpc(socket, argv.join(' '))
+    }
   })
+
+  socket.emit('gopher front', '1000')
+
+  setTimeout(() => {
+    // const argv = []
+    // for (const i in process.argv) {
+    //   if (i < 2) {
+    //     continue
+    //   }
+    //   argv.push(process.argv[i])
+    // }
+    // if (argv.length > 0) {
+    //   procGrpc(socket, argv.join(' '))
+    // }
+  }, 800)
 })

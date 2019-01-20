@@ -78,13 +78,12 @@ app.on('ready', () => {
     // macOS only
     app.dock.setIcon(iconimage)
     const dockMenu = Menu.buildFromTemplate([{
-        label: 'About gopheron',
-        click: function () {
-          console.log('About gopheron')
-          aboutWindow()
-        }
+      label: 'About gopheron',
+      click: function() {
+        console.log('About gopheron')
+        aboutWindow()
       }
-    ])
+    }])
 
     app.dock.setMenu(dockMenu)
   }
@@ -97,7 +96,8 @@ app.on('ready', () => {
     height: size.height,
     transparent: true,
     frame: false,
-    //'always-on-top': true,
+    alwaysOnTop: true,
+    hasShadow:   false,
     //show: false,
     'title-bar-style': 'hidden-inset'
   })

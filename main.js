@@ -99,6 +99,7 @@ app.on('ready', () => {
     frame: false,
     //'always-on-top': true,
     //show: false,
+    hasShadow: false,
     'title-bar-style': 'hidden-inset'
   })
 

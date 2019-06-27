@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"path"
 	"path/filepath"
+	"runtime"
 	"strconv"
 
 	socketio "github.com/googollee/go-socket.io"
@@ -80,10 +81,23 @@ func getElectronPath(gopheronPath string) string {
 	}
 	return electronPath
 }
+func getGopath() string {
+	goPath := os.Getenv("GOPATH")
+	if len(goPath) == 0 {
+		if runtime.GOOS == "windows" {
+			goPath = os.Getenv("USERPROFILE") + "/go"
+		} else {
+			goPath = os.Getenv("HOME") + "/go"
+		}
+	}
+	return goPath
+}
 
 func startElectron() {
-	gopheronPath := path.Dir(os.Args[0])
 
+	gopheronPath := path.Dir(os.Args[0])
+	gopheronPath = getGopath() + "/src/github.com/kjunichi/gopheron"
+	os.Chdir(gopheronPath)
 	out, err := exec.Command(getElectronPath(gopheronPath), "--with-golang", gopheronPath).Output()
 	if err != nil {
 		fmt.Println(err)

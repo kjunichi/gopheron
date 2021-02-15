@@ -14,7 +14,6 @@ fi
 # ls -ltr `npm config get prefix`/lib/node_modules/electron/dist
 # ldd `npm config get prefix`/lib/node_modules/electron/dist/libosmesa.so
 git clone https://github.com/eddieantonio/imgcat
-apt-get install cimg-dev
 cd imgcat;CC=clang make;cd ..
 #pwd
 #ls -ltr

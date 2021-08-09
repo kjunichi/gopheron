@@ -7,14 +7,14 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
-    "about-window": "^1.13.4",
-    "electron": ">=9.4.0",
-    "engine.io-client": "^3.4.3",
+    "about-window": "^1.14.0",
+    "electron": "^13.1.8",
+    "engine.io-client": "^3.5.2",
     "eslint": "^4.19.1",
-    "grpc": "^1.24.3",
-    "nodejs-tail": "^1.0.2",
-    "socket.io-client": "^2.3.0",
-    "tail": "^2.0.4"
+    "grpc": "^1.24.11",
+    "nodejs-tail": "^1.1.1",
+    "socket.io-client": "^2.4.0",
+    "tail": "^2.2.3"
   },
   "license": "MIT"
 }

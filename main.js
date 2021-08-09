@@ -93,14 +93,13 @@ app.on('ready', () => {
   const size = electronScreen.getPrimaryDisplay().workAreaSize
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: size.width,
-    height: size.height,
-    transparent: true,
+    width: size.width*0.9,
+    height: size.height*0.9,
     frame: false,
-    //'always-on-top': true,
-    //show: false,
+    transparent: true,
+    //frame: false,
     hasShadow: false,
-    'title-bar-style': 'hidden-inset'
+    titleBarStyle: 'hiddenInset'
   })
 
   if (mainWindow.setIcon) {

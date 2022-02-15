@@ -1,14 +1,5 @@
 'use strict'
 
-let ipcRenderer
-
-try {
-  ipcRenderer = require('electron').ipcRenderer
-} catch (e) {
-  // PWA mode detected.
-  console.log(`${e}`)
-}
-
 const gopheronMain = (golangMode) => {
 
   const drawHthml = (html, texture) => {

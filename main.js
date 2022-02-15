@@ -93,14 +93,12 @@ app.on('ready', () => {
   const size = electronScreen.getPrimaryDisplay().workAreaSize
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: size.width,
+    width: size.width - 1,
     height: size.height,
-    transparent: true,
     frame: false,
-    //'always-on-top': true,
-    //show: false,
+    transparent: true,
     hasShadow: false,
-    'title-bar-style': 'hidden-inset'
+    titleBarStyle: 'hiddenInset'
   })
 
   if (mainWindow.setIcon) {
@@ -111,10 +109,7 @@ app.on('ready', () => {
     const buttons = [{
       tooltip: 'About gopheron...',
       icon: playIcon,
-      click: function() {
-        // console.log('clicked')
-        aboutWindow()
-      },
+      click: aboutWindow,
       flags: ['dismissonclick']
     }]
     mainWindow.setThumbarButtons(buttons)

@@ -1,5 +1,5 @@
 const socket = require('socket.io-client')('http://localhost:5050')
-const grpc = require('grpc')
+const grpc = require('@grpc/grpc-js')
 const protoLoader = require('@grpc/proto-loader')
 
 let client = null

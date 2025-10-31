@@ -1,6 +1,6 @@
 #!/bin/sh
 import -window root no.jpg
-electron --use-gl=osmesa . &
+electron --no-sandbox --use-gl=osmesa . &
 sleep 18
 ps axuw|grep electr
 import -window root gopheron.jpg

@@ -1,6 +1,6 @@
 #!/bin/sh
 import -window root no.jpg
-electron --use-gl=osmesa . &
+electron --no-sandbox --use-gl=osmesa . &
 sleep 18
 ps axuw|grep electr
 import -window root gopheron.jpg
@@ -18,5 +18,5 @@ cd imgcat;CC=clang make;cd ..
 #pwd
 #ls -ltr
 #identify -list format
-curl https://wsproxy-slide.herokuapp.com/upload -F images=@gopheron.jpg
+#curl https://wsproxy-slide.herokuapp.com/upload -F images=@gopheron.jpg
 imgcat/imgcat --width 90 gopheron.jpg

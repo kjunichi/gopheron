@@ -1,36 +1,33 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.17'
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '4'
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb imagemagick libmagickwand-dev
+    - name: Install and build
+      run: |
+        export DISPLAY=':99.0'
+        Xvfb :99 -screen 0 640x480x24 > /dev/null 2>&1 &
+        npm install
+        npm uninstall electron
+        npm install -g electron
+        chmod +x build_osmesa.sh
+        ./build_osmesa.sh
+        cp libosmesa.so `npm config get prefix`/lib/node_modules/electron/dist
+        chmod +x test.sh
+        npm test

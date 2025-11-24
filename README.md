@@ -1,5 +1,5 @@
 # gopheron
-[![Build Status](https://travis-ci.org/kjunichi/gopheron.svg?branch=master)](https://travis-ci.org/kjunichi/gopheron)
+[![CI](https://github.com/kjunichi/gopheron/actions/workflows/main.yml/badge.svg)](https://github.com/kjunichi/gopheron/actions/workflows/main.yml)
 
 [![gopheron](http://img.youtube.com/vi/7MyO3GNndDU/0.jpg)](http://www.youtube.com/watch?v=7MyO3GNndDU)
 
